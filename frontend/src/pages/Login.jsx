@@ -11,9 +11,15 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
 
+    const email = username.trim();
+    const pwd = password.trim();
+
     const formData = new URLSearchParams();
-    formData.append("username", username);
-    formData.append("password", password);
+    formData.append("username", email);
+    formData.append("password", pwd);
+
+    console.log("EMAIL:", "[" + email + "]");
+    console.log("PASSWORD:", "[" + pwd + "]");
 
     try {
       const response = await api.post(
@@ -27,7 +33,10 @@ function Login() {
         }
       );
 
-      console.log("LOGIN RESPONSE:", response.data);
+      console.log(
+        "LOGIN RESPONSE:",
+        response.data
+      );
 
       localStorage.setItem(
         "token",
@@ -44,13 +53,20 @@ function Login() {
       navigate("/dashboard");
 
     } catch (error) {
-      console.error("LOGIN ERROR:", error);
+      console.error(
+        "LOGIN ERROR:",
+        error
+      );
+
       console.error(
         "ERROR RESPONSE:",
         error.response?.data
       );
 
-      alert("Login Failed");
+      alert(
+        error.response?.data?.detail ||
+        "Login Failed"
+      );
     }
   };
 
@@ -66,6 +82,7 @@ function Login() {
           onChange={(e) =>
             setUsername(e.target.value)
           }
+          required
         />
 
         <br />
@@ -78,6 +95,7 @@ function Login() {
           onChange={(e) =>
             setPassword(e.target.value)
           }
+          required
         />
 
         <br />
