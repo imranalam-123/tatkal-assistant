@@ -7,3 +7,4 @@ python-multipart
 reportlab
 pydantic
 email-validator
+python-dotenv
