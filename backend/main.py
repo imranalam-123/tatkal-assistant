@@ -9,6 +9,7 @@ from backend.models.booking import Booking
 from backend.models.ticket import Ticket
 from backend.models.payment import Payment
 
+# IMPORT ROUTES
 from backend.routes import auth
 from backend.routes import user
 from backend.routes import train
@@ -20,9 +21,14 @@ from backend.routes import availability
 from backend.routes import pnr
 from backend.routes import dashboard
 
-# Create database tables
+# =========================
+# Create Database Tables
+# =========================
 Base.metadata.create_all(bind=engine)
 
+# =========================
+# FastAPI App
+# =========================
 app = FastAPI(
     title="Tatkal Assistant API",
     version="1.0.0",
@@ -35,10 +41,14 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
+        # Local Frontend URLs
         "http://localhost:5173",
         "http://localhost:5174",
         "http://127.0.0.1:5173",
         "http://127.0.0.1:5174",
+
+        # Render Frontend URL
+        "https://tatkal-assistant-frontend.onrender.com",
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -76,7 +86,7 @@ app.include_router(availability.router)
 # PNR Status
 app.include_router(pnr.router)
 
-# Dashboard Statistics
+# Dashboard
 app.include_router(dashboard.router)
 
 # =========================
