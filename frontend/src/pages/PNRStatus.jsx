@@ -41,11 +41,7 @@ function PNRStatus() {
 
   return (
     <div
-      style={{
-        color: "white",
-        textAlign: "center",
-        marginTop: "50px",
-      }}
+      className="panel"
     >
       <h1>PNR Status</h1>
 
@@ -70,12 +66,7 @@ function PNRStatus() {
 
       {booking && (
         <div
-          style={{
-            border: "1px solid gray",
-            width: "500px",
-            margin: "auto",
-            padding: "15px",
-          }}
+          className="data-card"
         >
           <p>
             <strong>PNR:</strong>{" "}

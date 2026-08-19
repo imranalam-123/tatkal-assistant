@@ -156,15 +156,11 @@ Waiting List Number: ${
 
   return (
     <div
-      style={{
-        textAlign: "center",
-        marginTop: "50px",
-        color: "white",
-      }}
+      className="panel"
     >
       <h1>Search Train</h1>
 
-      <form onSubmit={handleSearch}>
+      <form className="form-grid" onSubmit={handleSearch}>
         <input
           type="text"
           placeholder="From Station"
@@ -235,20 +231,13 @@ Waiting List Number: ${
       <br />
 
       {trains.length > 0 && (
-        <div>
+        <div className="list">
           <h2>Available Trains</h2>
 
           {trains.map((train, index) => (
             <div
               key={index}
-              style={{
-                border:
-                  "1px solid gray",
-                padding: "10px",
-                margin:
-                  "10px auto",
-                width: "400px",
-              }}
+              className="data-card"
             >
               <p>
                 <strong>

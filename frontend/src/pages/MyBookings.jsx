@@ -73,11 +73,7 @@ function MyBookings() {
 
   return (
     <div
-      style={{
-        color: "white",
-        textAlign: "center",
-        marginTop: "50px",
-      }}
+      className="panel"
     >
       <h1>My Bookings</h1>
 
@@ -87,12 +83,7 @@ function MyBookings() {
         bookings.map((booking) => (
           <div
             key={booking.id}
-            style={{
-              border: "1px solid gray",
-              margin: "10px auto",
-              padding: "10px",
-              width: "500px",
-            }}
+            className="data-card"
           >
             <p>
               <strong>PNR:</strong>{" "}
@@ -119,11 +110,7 @@ function MyBookings() {
                 booking.status ===
                 "CANCELLED"
               }
-              style={{
-                padding:
-                  "8px 15px",
-                cursor: "pointer",
-              }}
+
             >
               {booking.status ===
               "CANCELLED"
