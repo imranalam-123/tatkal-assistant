@@ -1,45 +1,36 @@
 import { useEffect, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
+import api from "../services/api";
+
+const actions = [
+  ["🚆", "Search Train", "Find real-time routes and availability.", "/search-train"],
+  ["👤", "Passenger Details", "Store traveler information once.", "/passenger-details"],
+  ["📄", "My Bookings", "Review or cancel reservations.", "/my-bookings"],
+  ["💳", "Payment", "Complete pending payments quickly.", "/payment"],
+  ["🎟", "My Tickets", "Download confirmed ticket PDFs.", "/tickets"],
+  ["🔍", "PNR Status", "Track booking status instantly.", "/pnr-status"],
+];
 
 function Dashboard() {
   const navigate = useNavigate();
-
-  const [stats, setStats] = useState({
-    total_bookings: 0,
-    total_tickets: 0,
-    total_payments: 0,
-  });
+  const [stats, setStats] = useState({ total_bookings: 0, total_tickets: 0, total_payments: 0 });
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-
-    if (!token) {
+    if (!localStorage.getItem("token")) {
       navigate("/");
       return;
     }
-
+    const fetchStats = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const res = await api.get("/dashboard/stats", { headers: { Authorization: `Bearer ${token}` } });
+        setStats(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
     fetchStats();
   }, [navigate]);
-
-  const fetchStats = async () => {
-    try {
-      const token = localStorage.getItem("token");
-
-      const res = await axios.get(
-        "http://127.0.0.1:8000/dashboard/stats",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      setStats(res.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -47,133 +38,32 @@ function Dashboard() {
   };
 
   return (
-    <div
-      style={{
-        textAlign: "center",
-        color: "white",
-        marginTop: "40px",
-      }}
-    >
-      <h1>Tatkal Assistant Dashboard</h1>
-
-      {/* Statistics Cards */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          gap: "20px",
-          marginTop: "30px",
-          flexWrap: "wrap",
-        }}
-      >
-        <div
-          style={{
-            border: "1px solid white",
-            padding: "20px",
-            width: "180px",
-          }}
-        >
-          <h3>📄 Bookings</h3>
-          <h2>{stats.total_bookings}</h2>
+    <>
+      <section className="hero-card">
+        <div className="hero-copy">
+          <p className="eyebrow">Control center</p>
+          <h1>Your journey dashboard.</h1>
+          <p>Plan faster with a responsive workspace for searches, passenger profiles, payments, PNR checks, bookings, and tickets.</p>
+          <div className="hero-actions"><Link className="btn" to="/search-train">Start booking</Link><button className="btn secondary" onClick={handleLogout}>Logout</button></div>
         </div>
+        <div className="visual-card"><h3>Next trip, simplified</h3><p>Everything you need before the chart is prepared.</p><div className="train">🚆</div><div className="train-line" /></div>
+      </section>
 
-        <div
-          style={{
-            border: "1px solid white",
-            padding: "20px",
-            width: "180px",
-          }}
-        >
-          <h3>🎟 Tickets</h3>
-          <h2>{stats.total_tickets}</h2>
+      <section className="panel">
+        <div className="metric-grid">
+          <div className="stat-card"><span>📄 Bookings</span><strong>{stats.total_bookings}</strong></div>
+          <div className="stat-card"><span>🎟 Tickets</span><strong>{stats.total_tickets}</strong></div>
+          <div className="stat-card"><span>💳 Payments</span><strong>{stats.total_payments}</strong></div>
         </div>
+      </section>
 
-        <div
-          style={{
-            border: "1px solid white",
-            padding: "20px",
-            width: "180px",
-          }}
-        >
-          <h3>💳 Payments</h3>
-          <h2>{stats.total_payments}</h2>
+      <section className="panel">
+        <h2>Quick actions</h2>
+        <div className="card-grid">
+          {actions.map(([icon, title, description, to]) => <Link className="quick-card" key={title} to={to}><h3>{icon} {title}</h3><p>{description}</p></Link>)}
         </div>
-      </div>
-
-      {/* Navigation */}
-      <div style={{ marginTop: "40px" }}>
-        <Link
-          to="/search-train"
-          style={{
-            color: "white",
-            textDecoration: "none",
-          }}
-        >
-          <h3>🚆 Search Train</h3>
-        </Link>
-
-        <Link
-          to="/passenger-details"
-          style={{
-            color: "white",
-            textDecoration: "none",
-          }}
-        >
-          <h3>👤 Passenger Details</h3>
-        </Link>
-
-        <Link
-          to="/my-bookings"
-          style={{
-            color: "white",
-            textDecoration: "none",
-          }}
-        >
-          <h3>📄 My Bookings</h3>
-        </Link>
-
-        <Link
-          to="/payment"
-          style={{
-            color: "white",
-            textDecoration: "none",
-          }}
-        >
-          <h3>💳 Payment</h3>
-        </Link>
-
-        <Link
-          to="/tickets"
-          style={{
-            color: "white",
-            textDecoration: "none",
-          }}
-        >
-          <h3>🎟 My Tickets</h3>
-        </Link>
-
-        <Link
-          to="/pnr-status"
-          style={{
-            color: "white",
-            textDecoration: "none",
-          }}
-        >
-          <h3>🔍 PNR Status</h3>
-        </Link>
-
-        <button
-          onClick={handleLogout}
-          style={{
-            marginTop: "20px",
-            padding: "10px 20px",
-            cursor: "pointer",
-          }}
-        >
-          🚪 Logout
-        </button>
-      </div>
-    </div>
+      </section>
+    </>
   );
 }
 

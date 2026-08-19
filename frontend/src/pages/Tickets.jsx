@@ -71,11 +71,7 @@ function Tickets() {
 
   return (
     <div
-      style={{
-        color: "white",
-        textAlign: "center",
-        marginTop: "50px",
-      }}
+      className="panel"
     >
       <h1>My Tickets</h1>
 
@@ -85,12 +81,7 @@ function Tickets() {
         tickets.map((ticket) => (
           <div
             key={ticket.id}
-            style={{
-              border: "1px solid gray",
-              margin: "10px auto",
-              padding: "15px",
-              width: "500px",
-            }}
+            className="data-card"
           >
             <p>
               <strong>Ticket Number:</strong>{" "}
@@ -106,10 +97,7 @@ function Tickets() {
               onClick={() =>
                 downloadTicket(ticket.id)
               }
-              style={{
-                padding: "8px 15px",
-                cursor: "pointer",
-              }}
+
             >
               Download PDF
             </button>

@@ -35,11 +35,7 @@ function Payment() {
 
   return (
     <div
-      style={{
-        textAlign: "center",
-        marginTop: "50px",
-        color: "white",
-      }}
+      className="panel"
     >
       <h1>Payment</h1>
 

@@ -72,15 +72,11 @@ function PassengerDetails() {
 
   return (
     <div
-      style={{
-        color: "white",
-        textAlign: "center",
-        marginTop: "50px",
-      }}
+      className="panel"
     >
       <h1>Passenger Details</h1>
 
-      <form onSubmit={addPassenger}>
+      <form className="form-grid" onSubmit={addPassenger}>
         <input
           type="text"
           placeholder="Passenger Name"
@@ -143,12 +139,7 @@ function PassengerDetails() {
       {passengers.map((passenger) => (
         <div
           key={passenger.id}
-          style={{
-            border: "1px solid gray",
-            width: "500px",
-            margin: "10px auto",
-            padding: "10px",
-          }}
+          className="data-card"
         >
           <p>
             <strong>Name:</strong>{" "}
